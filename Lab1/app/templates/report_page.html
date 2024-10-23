@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <main class="container">
+
+        <h3  class="text-center">Черновой отчет</h3>
+
+        <span>Название компании: {{ report.company }}</span>
+        <span>Месяц: {{ report.month }}</span>
+
+        <h4 class="text-center">Ресурсы</h4>
+
+        <div class="cards-wrapper d-flex flex-column">
+
+            {% for resource in resources %}
+
+                {% include "resource_card.html" %}
+
+            {% endfor %}
+
+        </div>
+
+    </main>
+{% endblock content %}
