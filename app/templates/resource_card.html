@@ -1,0 +1,51 @@
+{% load static %}
+
+{% if "http://localhost:8000/reports/" in request.build_absolute_uri or "http://127.0.0.1:8000/reports/" in request.build_absolute_uri %}
+    <div class="card w-100 mb5">
+         <div class="row g-0">
+            <div class="col-md-6 d-flex justify-center">
+                <img src="{{ resource.get_image }}">
+            </div>
+            <div class="col-md-6">
+                <div class="card-body">
+                    <h5 class="card-title">{{ resource.name }}</h5>
+                    <p class="card-text">Плотность: {{ resource.density }}г/см³</p>
+                    <div class="form-group">
+                        <label class="form-label">Обьем</label>
+                        {% if resource.value %}
+                            <input placeholder="Введите обьем" disabled type="text" class="form-control" style="width: 250px" value="{{ resource.value }}">
+                        {% else %}
+                            <input placeholder="Введите обьем" disabled type="text" class="form-control" style="width: 250px">
+                        {% endif %}
+                    </div>
+                    <a href="/resources/{{ resource.id }}/" class="btn btn-primary" style="width: 100px">
+                        Подробнее
+                    </a>
+                </div>
+            </div>
+         </div>
+    </div>
+{% else %}
+    <div class="card">
+        <img src="{{ resource.get_image }}" class="resource-preview" alt=""/>
+        <div class="card-body" >
+            <div class="card-info">
+                <h5 class="card-title">{{ resource.name }}</h5>
+                <p class="card-text">Плотность: {{ resource.density }}г/см³</p>
+            </div>
+            <div class="row card-btns">
+                <div class="col d-flex justify-content-center flex-grow-1">
+                    <a href="/resources/{{ resource.id }}" class="btn btn-primary">
+                        Открыть
+                    </a>
+                </div>
+                <form method="post" action="{% url 'add_resource_to_draft_report' resource.id %}" class="col d-flex justify-content-center">
+                    {% csrf_token %}
+                    <button class="add-btn btn btn-secondary" type="submit">
+                        Добавить
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endiмуf %}

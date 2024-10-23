@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <main class="container">
+
+        <h3  class="text-center">Отчеты ресурсов</h3>
+
+         <div class="form-group">
+            <label class="form-label">Название компании</label>
+            {% if report.company %}
+                <input placeholder="Введите название" disabled type="text" class="form-control" style="width: 250px" value="{{ report.company }}">
+            {% else %}
+                <input placeholder="Введите название" disabled type="text" class="form-control" style="width: 250px">
+            {% endif %}
+        </div>
+
+         <div class="form-group">
+            <label class="form-label">Месяц</label>
+            {% if report.month %}
+                <input placeholder="Введите месяц" disabled type="text" class="form-control" style="width: 250px" value="{{ report.month }}">
+            {% else %}
+                <input placeholder="Введите месяц" disabled type="text" class="form-control" style="width: 250px">
+            {% endif %}
+        </div>
+
+        <form method="post" action="{% url 'delete_report' report.id %}">
+            {% csrf_token %}
+                <button class="btn btn-danger delete-draft-report-btn" type="submit">
+                    Удалить
+                </button>
+            </a>
+        </form>
+
+        <h4 class="text-center">Ресурсы</h4>
+
+        <div class="cards-wrapper d-flex flex-column">
+
+            {% for resource in report.get_resources %}
+
+                {% include "resource_card.html" %}
+
+            {% endfor %}
+
+        </div>
+
+    </main>
+{% endblock content %}
